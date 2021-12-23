@@ -113,6 +113,16 @@ class ActorEvents_0 extends ActorScript
 			}
 		});
 		
+		/* =========================== Keyboard =========================== */
+		addKeyStateListener("action1", function(pressed:Bool, released:Bool, list:Array<Dynamic>):Void
+		{
+			if(wrapper.enabled && pressed)
+			{
+				createRecycledActor(getActorType(4), actor.getX(), actor.getY(), Script.FRONT);
+				getLastCreatedActor().applyImpulse(0, -1, 40);
+			}
+		});
+		
 	}
 	
 	override public function forwardMessage(msg:String)
