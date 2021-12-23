@@ -79,6 +79,7 @@ class ActorEvents_4 extends ActorScript
 		{
 			if(wrapper.enabled && sameAsAny(getActorType(2), event.otherActor.getType(),event.otherActor.getGroup()))
 			{
+				event.otherActor.shout("_customEvent_" + "Hit");
 				recycleActor(actor);
 			}
 		});
