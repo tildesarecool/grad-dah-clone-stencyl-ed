@@ -64,11 +64,17 @@ import com.stencyl.graphics.shaders.BloomShader;
 
 class SceneEvents_0 extends SceneScript
 {
+	public var _VictoryCounter:Float;
+	public var _Win:Bool;
 	
 	
 	public function new(dummy:Int, dummy2:Engine)
 	{
 		super();
+		nameMap.set("Victory Counter", "_VictoryCounter");
+		_VictoryCounter = 0;
+		nameMap.set("Win?", "_Win");
+		_Win = true;
 		
 	}
 	
@@ -77,6 +83,58 @@ class SceneEvents_0 extends SceneScript
 		
 		/* ======================== When Creating ========================= */
 		playSound(getSound(8));
+		
+		/* ======================= Member of Group ======================== */
+		addWhenTypeGroupKilledListener(getActorGroup(4), function(eventActor:Actor, list:Array<Dynamic>):Void
+		{
+			if(wrapper.enabled)
+			{
+				_VictoryCounter += 1;
+			}
+		});
+		
+		/* ======================== Actor of Type ========================= */
+		addWhenTypeGroupKilledListener(getActorType(2), function(eventActor:Actor, list:Array<Dynamic>):Void
+		{
+			if(wrapper.enabled)
+			{
+				_VictoryCounter += 1;
+			}
+		});
+		
+		/* ======================== Specific Actor ======================== */
+		addWhenKilledListener(getActor(2), function(list:Array<Dynamic>):Void
+		{
+			if(wrapper.enabled)
+			{
+				_VictoryCounter += 1;
+			}
+		});
+		
+		/* ======================== When Updating ========================= */
+		addWhenUpdatedListener(null, function(elapsedTime:Float, list:Array<Dynamic>):Void
+		{
+			if(wrapper.enabled)
+			{
+				if((_VictoryCounter == 5))
+				{
+					_Win = true;
+				}
+			}
+		});
+		
+		/* ========================= When Drawing ========================= */
+		addWhenDrawingListener(null, function(g:G, x:Float, y:Float, list:Array<Dynamic>):Void
+		{
+			if(wrapper.enabled)
+			{
+				g.setFont(getFont(9));
+				if(_Win)
+				{
+					g.drawString("" + "You Win!", 300, 240);
+				}
+			}
+		});
 		
 	}
 	
